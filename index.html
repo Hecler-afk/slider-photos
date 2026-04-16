@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интерактивная доступная галерея</title>
+    
+    <style>
+        body { font-family: sans-serif; text-align: center; background-color: #f4f4f4; }
+        h1 { color: #333; }
+        /* Исправление уровней заголовков для WAVE: используем h2 вместо h3 */
+        h2 { color: #666; font-size: 1.2em; }
+
+        #image {
+            width: 600px;
+            height: 400px;
+            margin: 20px auto;
+            border: 5px solid #333;
+            background-color: #8e8e8e;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .preview-container { display: flex; flex-wrap: wrap; justify-content: center; }
+        
+        .preview {
+            width: 150px;
+            height: 100px;
+            margin: 10px;
+            border: 3px solid #fff;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        /* Стиль для фокуса клавиатуры (tabindex) */
+        .preview:focus {
+            outline: 5px solid yellow;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body onload="addTabFocus()">
+
+    <h1>Моя галерея</h1>
+    <h2>Наведите на фото или используйте Tab</h2>
+
+    <div id="image">
+        Здесь появится описание
+    </div>
+
+    <div class="preview-container">
+        <img class="preview" alt="Горный пейзаж" src="https://picsum.photos/id/10/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+        <img class="preview" alt="Лесное озеро" src="https://picsum.photos/id/11/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+        <img class="preview" alt="Берег океана" src="https://picsum.photos/id/12/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+        <img class="preview" alt="Зеленый луг" src="https://picsum.photos/id/13/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+        <img class="preview" alt="Каменный мост" src="https://picsum.photos/id/14/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+        <img class="preview" alt="Ночной город" src="https://picsum.photos/id/15/600/400" onmouseover="upDate(this)" onmouseout="unundo()" onfocus="upDate(this)" onblur="unundo()">
+    </div>
+
+    <script>
+        function upDate(previewPic) {
+            console.log("Событие активации (мышь или фокус): " + previewPic.alt);
+            let display = document.getElementById('image');
+            display.innerHTML = previewPic.alt;
+            display.style.backgroundImage = "url('" + previewPic.src + "')";
+        }
+
+        function unundo() {
+            console.log("Событие выхода");
+            let display = document.getElementById('image');
+            display.style.backgroundImage = "url('')";
+            display.innerHTML = "Здесь появится описание";
+        }
+
+        // Функция onload для настройки доступности
+        function addTabFocus() {
+            console.log("Страница загружена. Запуск цикла для tabindex...");
+            
+            // Находим все изображения с классом preview
+            let images = document.querySelectorAll('.preview');
+            
+            // Цикл for для перебора каждого изображения
+            for (let i = 0; i < images.length; i++) {
+                // Добавляем атрибут tabindex программно
+                images[i].setAttribute('tabindex', '0');
+                console.log("Tabindex добавлен для: " + images[i].alt);
+            }
+        }
+    </script>
+
+</body>
+</html>
